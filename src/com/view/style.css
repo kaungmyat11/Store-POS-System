@@ -1,0 +1,38 @@
+.root {
+    -fx-font-family: Roboto;
+}
+
+.h1 {
+    -fx-font-size: 35px !important;
+    -fx-font-weight: 600 !important;
+}
+
+.label {
+    -fx-font-size: 18px;
+}
+
+.button {
+    -fx-padding: 10px 0;
+}
+
+/* Bootstrap Reference Color Theme */
+
+.error{
+    -fx-text-fill: #f73859;
+}
+
+.success {
+    -fx-text-fill: #5cb85c;
+}
+
+.info {
+    -fx-text-fill: #5bc0de;
+}
+
+.warning {
+    -fx-text-fill: #f0ad4e;
+}
+
+.danger {
+    -fx-text-fill: #d9534f;
+}
