@@ -1,10 +1,10 @@
 package com.model;
 
 public class User {
-    private int id;
     private String username;
     private String password;
     private boolean isAdmin;
+    private boolean isLogin;
 
     public User(String username, String password, boolean isAdmin) {
         this.username = username;
@@ -17,12 +17,8 @@ public class User {
         this.password = password;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public boolean getIsLogin() {
+        return this.isLogin;
     }
 
     public String getUsername() {
@@ -41,17 +37,19 @@ public class User {
         this.password = password;
     }
 
-    public boolean isAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setIsAdmin(boolean admin) {
+        this.isAdmin = admin;
     }
 
-    public boolean login() {
+    public void login() {
         DbConnect dbConnect = new DbConnect();
         String query = "SELECT * FROM users WHERE username = '" + this.username + "' AND password = crypt('" + this.password + "', password);";
-        return dbConnect.executeLoginQuery(query);
+        boolean[] booleans = dbConnect.executeLoginQuery(query);
+        isLogin = booleans[0];
+        isAdmin = booleans[1];
     }
 }
