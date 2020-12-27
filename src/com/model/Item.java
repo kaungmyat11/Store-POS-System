@@ -76,4 +76,9 @@ public class Item {
     }
 
 
+    public String getSupplierName() {
+        DbConnect dbConnect = new DbConnect();
+        System.out.println(this.supplierId);
+        return (dbConnect.getSupplierName(this.supplierId));
+    }
 }

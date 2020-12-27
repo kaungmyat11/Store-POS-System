@@ -50,7 +50,6 @@ public class AddItemWindowController extends BaseController implements Initializ
     @FXML
     void cancelButtonAction(ActionEvent event) {
         System.out.println("Cancel Button Clicked");
-
         Stage stageToClose = (Stage) wholesaleTextField.getScene().getWindow();
         stageToClose.close();
     }
@@ -76,8 +75,8 @@ public class AddItemWindowController extends BaseController implements Initializ
 
             String query = "INSERT INTO items VALUES ('" + code + "', '" + name + "', '" + brand + "'," + stock + ", " + retailPrice + ", " + wholesalePrice + ", " + supplierId + ");" ;
             dbConnect.executeQuery(query);
-            Stage stageToClose = (Stage) messageLabel.getScene().getWindow();
-            stageToClose.close();
+            messageLabel.setText("Success!");
+
         } catch (Exception e) {
             System.out.println("ERROR in converting text to string." + e);
             AnchorPane.setLeftAnchor(messageLabel, 0.0);
@@ -92,5 +91,9 @@ public class AddItemWindowController extends BaseController implements Initializ
         DbConnect dbConnect = new DbConnect();
         supplierNameList = dbConnect.getSupplierList();
         supplierComboBox.getItems().addAll(supplierNameList);
+    }
+
+    public boolean isClose() {
+        return true;
     }
 }

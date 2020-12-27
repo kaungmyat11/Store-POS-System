@@ -62,10 +62,10 @@ public class AdminItemsWindowController extends BaseController implements Initia
         wholesaleColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("wholesalePrice"));
         supplierColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("supplierId"));
 
-        getItems();
+        refreshItemTable();
     }
 
-    public void getItems() {
+    public void refreshItemTable() {
         DbConnect dbConnect = new DbConnect();
         itemObservableList = dbConnect.getItemList();
 
@@ -99,6 +99,7 @@ public class AdminItemsWindowController extends BaseController implements Initia
         System.out.println("Add Button Clicked");
 
         viewFactory.showAddItemWindow();
+        refreshItemTable();
     }
 
     @FXML
@@ -113,7 +114,7 @@ public class AdminItemsWindowController extends BaseController implements Initia
             System.out.println("Delete the item from database.");
             DbConnect dbConnect = new DbConnect();
             dbConnect.executeQuery("DELETE FROM items WHERE code = '" + selectedItem.getCode() + "';");
-            getItems();
+            refreshItemTable();
         }
 
     }
@@ -123,6 +124,7 @@ public class AdminItemsWindowController extends BaseController implements Initia
         System.out.println("Edit Button Clicked");
         Item selectedItem = (Item) itemsTableView.getSelectionModel().getSelectedItem();
         System.out.println(selectedItem.getName());
+        System.out.println(selectedItem.getSupplierId());
 
         viewFactory.showEditItemWindow(selectedItem);
     }

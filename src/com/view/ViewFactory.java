@@ -103,8 +103,6 @@ public class ViewFactory {
             stage.show();
         }
 
-
-
         activeStages.add(stage);
     }
 

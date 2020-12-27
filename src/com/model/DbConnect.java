@@ -115,4 +115,30 @@ public class DbConnect {
         return id;
     }
 
+    public String getSupplierName(int id) {
+        String supplierName = "";
+        try {
+            ResultSet resultSet = statement.executeQuery("SELECT name FROM suppliers WHERE id = " + id + ";");
+            if (resultSet.next()) {
+                supplierName = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR IN SQL: " + e);
+        }
+        return supplierName;
+    }
+
+    public boolean checkIfTaken(String query) {
+        boolean isTaken = false;
+        try {
+            ResultSet resultSet = statement.executeQuery(query);
+            if (resultSet.next()) {
+                isTaken = true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in SQL: " + e);
+        }
+        return isTaken;
+    }
+
 }
