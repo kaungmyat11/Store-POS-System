@@ -46,6 +46,13 @@ public class ViewFactory {
         initializeStage(controller, "User Main Window", false);
     }
 
+    public void showAddItemWindow() {
+        System.out.println("Show Add Item Window");
+
+        BaseController controller = new AddItemWindowController(this, "AddItemWindow.fxml");
+        initializeStage(controller, "Add Item", true);
+    }
+
     public void showEditItemWindow(Item selectedItem) {
         System.out.println("Show Edit Item Window");
 

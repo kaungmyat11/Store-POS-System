@@ -28,18 +28,6 @@ public class LoginWindowController extends BaseController{
     @FXML
     void quitButtonAction(ActionEvent event) {
         System.out.println("Quit Button Clicked");
-        //Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to exit?", ButtonType.YES, ButtonType.NO);
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setTitle("Confirm Dialog");
-//        alert.setContentText("Do you want to exit");
-//        alert.showAndWait();
-
-//        viewFactory.showAlertBox("Hello", "Do you want to quit?");
-//        viewFactory.showAlertBox("AlertBox.fxml", "Hello", "Hello");
-//        if (alert.getResult() == ButtonType.YES) {
-//            Stage stageToClose = (Stage) messageLabel.getScene().getWindow();
-//            stageToClose.close();
-//        }
 
         boolean isTrue = ConfirmBox.show("Confirm Box", "Are you sure to quit? Do you know that you are about to close the window?");
         System.out.println(isTrue);

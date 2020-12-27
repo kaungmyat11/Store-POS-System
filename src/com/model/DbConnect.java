@@ -2,8 +2,10 @@ package com.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DbConnect {
     private Connection connection;
@@ -81,6 +83,36 @@ public class DbConnect {
             e.printStackTrace();
         }
         return itemObservableList;
+    }
+
+
+    public ArrayList<String> getSupplierList() {
+        String supplierName;
+        ArrayList<String> supplierNameList = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT name FROM suppliers;");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                supplierName = resultSet.getString("name");
+                supplierNameList.add(supplierName);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in SQL execution: " + e);
+        }
+        return supplierNameList;
+    }
+
+    public int getSupplierId(String supplierName) {
+        int id = 0;
+        try {
+            ResultSet resultSet = statement.executeQuery("SELECT id FROM suppliers WHERE name = '" + supplierName + "';");
+            if (resultSet.next()) {
+                id = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR IN SQL: " + e);
+        }
+        return id;
     }
 
 }

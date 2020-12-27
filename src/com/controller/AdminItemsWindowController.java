@@ -65,7 +65,7 @@ public class AdminItemsWindowController extends BaseController implements Initia
         getItems();
     }
 
-    void getItems() {
+    public void getItems() {
         DbConnect dbConnect = new DbConnect();
         itemObservableList = dbConnect.getItemList();
 
@@ -97,6 +97,8 @@ public class AdminItemsWindowController extends BaseController implements Initia
     @FXML
     void addButtonAction(ActionEvent event) {
         System.out.println("Add Button Clicked");
+
+        viewFactory.showAddItemWindow();
     }
 
     @FXML
