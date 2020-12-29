@@ -25,11 +25,13 @@ public class DbConnect {
         }
     }
 
-    public void executeQuery(String query) {
+    public boolean executeQuery(String query) {
+        boolean isSuccess = false;
         try {
             int result = statement.executeUpdate(query);
             if (result > 0) {
                 System.out.println("Query Executed Successfully");
+                isSuccess = true;
                 connection.close();
             } else {
                 System.out.println("Failed in executing query");
@@ -37,6 +39,7 @@ public class DbConnect {
         } catch (SQLException e) {
             System.out.println("Error in SQL: " + e);
         }
+        return isSuccess;
     }
 
 
@@ -63,7 +66,8 @@ public class DbConnect {
 
     public ObservableList<Item> getItemList() {
         ObservableList<Item> itemObservableList = FXCollections.observableArrayList();
-        String itemCode, itemName, itemBrand;
+        Item item;
+        String itemCode, itemName, itemBrand, supplierName;
         int itemStock, itemRetailPrice, itemWholesalePrice, supplierId;
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT  * FROM items;");
@@ -76,13 +80,35 @@ public class DbConnect {
                 itemRetailPrice = resultSet.getInt("retail_price");
                 itemWholesalePrice = resultSet.getInt("wholesale_price");
                 supplierId = resultSet.getInt("supplier_id");
-                itemObservableList.add(new Item(itemCode, itemName, itemBrand, itemStock, itemRetailPrice, itemWholesalePrice, supplierId));
+                item = new Item(itemCode, itemName, itemBrand, itemStock, itemRetailPrice, itemWholesalePrice, supplierId);
+                itemObservableList.add(item);
             }
         } catch (SQLException e) {
             System.out.println("ERROR in executing SQL Query");
             e.printStackTrace();
         }
         return itemObservableList;
+    }
+
+
+    public ObservableList<User> getUserList() {
+        ObservableList<User> userObservableList = FXCollections.observableArrayList();
+        String username, password;
+        boolean isAdmin;
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users;");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                username = resultSet.getString("username");
+                password = resultSet.getString("password");
+                isAdmin = resultSet.getBoolean("is_admin");
+                userObservableList.add(new User(username, password, isAdmin));
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR in executing SQL Query");
+            e.printStackTrace();
+        }
+        return userObservableList;
     }
 
 
@@ -139,6 +165,24 @@ public class DbConnect {
             System.out.println("Error in SQL: " + e);
         }
         return isTaken;
+    }
+
+    public Item getItem(String code) {
+        Item item = new Item();
+        try {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM items WHERE code = '" + code + "';");
+            if (resultSet.next()) {
+                item.setCode(resultSet.getString("code"));
+                item.setName(resultSet.getString("name"));
+                item.setStock(resultSet.getInt("stock"));
+                item.setRetailPrice(resultSet.getInt("retail_price"));
+                item.setWholesalePrice(resultSet.getInt("wholesale_price"));
+                item.setSupplierId(resultSet.getInt("supplier_id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("ERROR IN SQL: " + e);
+        }
+        return item;
     }
 
 }

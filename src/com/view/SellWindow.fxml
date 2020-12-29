@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="codeColumn" prefWidth="184.0" text="Code" />
+          <TableColumn fx:id="nameColumn" prefWidth="273.0" text="Name" />
+            <TableColumn fx:id="nameColumn1" prefWidth="202.0" text="Unit Price" />
+            <TableColumn fx:id="nameColumn11" prefWidth="134.0" text="Qty" />
+            <TableColumn fx:id="nameColumn111" prefWidth="205.0" text="Total" />
+        </columns>
+      </TableView>
+   </center>
+   <top>
+      <AnchorPane prefHeight="311.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="addButton" layoutX="368.0" layoutY="239.0" mnemonicParsing="false" onAction="#addButtonAction" text="Add">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding></Button>
+            <TextField fx:id="codeTextField" layoutX="243.0" layoutY="21.0" />
+            <TextField fx:id="nameTextField" layoutX="243.0" layoutY="56.0" />
+            <TextField fx:id="quantityTextField" layoutX="243.0" layoutY="91.0" />
+            <TextField fx:id="priceTextField" layoutX="243.0" layoutY="130.0" />
+            <TextField fx:id="totalTextField" layoutX="243.0" layoutY="168.0" />
+            <Label layoutX="125.0" layoutY="26.0" text="Code" />
+            <Label layoutX="125.0" layoutY="61.0" text="Name" />
+            <Label layoutX="125.0" layoutY="96.0" text="Quantity" />
+            <Label layoutX="125.0" layoutY="135.0" text="Unit Price" />
+            <Label layoutX="122.0" layoutY="173.0" text="Total Amount" />
+            <CheckBox fx:id="retailCheckBox" layoutX="240.0" layoutY="213.0" mnemonicParsing="false" text="Retail" />
+         </children>
+      </AnchorPane>
+   </top>
+   <bottom>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

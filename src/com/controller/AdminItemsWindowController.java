@@ -1,5 +1,6 @@
 package com.controller;
 
+import com.model.AlertBox;
 import com.model.ConfirmBox;
 import com.model.DbConnect;
 import com.model.Item;
@@ -13,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.w3c.dom.events.MouseEvent;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,11 +48,18 @@ public class AdminItemsWindowController extends BaseController implements Initia
     @FXML
     TextField searchTextField;
 
+    @FXML
+    Button deleteButton;
+
     ObservableList<Item> itemObservableList = FXCollections.observableArrayList();
+
+    Item selectedItem;
 
     public AdminItemsWindowController(ViewFactory viewFactory, String fxmlName) {
         super(viewFactory, fxmlName);
     }
+
+    boolean isEmpty;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,7 +69,7 @@ public class AdminItemsWindowController extends BaseController implements Initia
         stockColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("stock"));
         retailColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("retailPrice"));
         wholesaleColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("wholesalePrice"));
-        supplierColumn.setCellValueFactory(new PropertyValueFactory<Item, Integer>("supplierId"));
+        supplierColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("supplierName"));
 
         refreshItemTable();
     }
@@ -106,26 +115,43 @@ public class AdminItemsWindowController extends BaseController implements Initia
     void deleteButtonAction(ActionEvent event) {
         System.out.println("Delete Button Clicked");
 
-        Item selectedItem = (Item) itemsTableView.getSelectionModel().getSelectedItem();
-        System.out.println(selectedItem.getName());
-        boolean isTrue = ConfirmBox.show("Delete Item","Do you want to delete " + selectedItem.getName() + " ?");
+        isEmpty = itemsTableView.getSelectionModel().isEmpty();
+        if (isEmpty) {
+            showAlertBox();
+        } else {
+            selectedItem = (Item) itemsTableView.getSelectionModel().getSelectedItem();
+            System.out.println(selectedItem.getName());
+            boolean isTrue = ConfirmBox.show("Delete Item","Do you want to delete " + selectedItem.getName() + " ?");
 
-        if (isTrue) {
-            System.out.println("Delete the item from database.");
-            DbConnect dbConnect = new DbConnect();
-            dbConnect.executeQuery("DELETE FROM items WHERE code = '" + selectedItem.getCode() + "';");
-            refreshItemTable();
+            if (isTrue) {
+                System.out.println("Delete the item from database.");
+                DbConnect dbConnect = new DbConnect();
+                dbConnect.executeQuery("DELETE FROM items WHERE code = '" + selectedItem.getCode() + "';");
+                refreshItemTable();
+            }
         }
-
     }
 
     @FXML
     void editButtonAction(ActionEvent event) {
         System.out.println("Edit Button Clicked");
-        Item selectedItem = (Item) itemsTableView.getSelectionModel().getSelectedItem();
-        System.out.println(selectedItem.getName());
-        System.out.println(selectedItem.getSupplierId());
+        isEmpty = itemsTableView.getSelectionModel().isEmpty();
+        System.out.println(isEmpty);
+        if (isEmpty) {
+            showAlertBox();
+        } else {
+            selectedItem = (Item) itemsTableView.getSelectionModel().getSelectedItem();
+            System.out.println(selectedItem.getName());
+            System.out.println(selectedItem.getSupplierId());
 
-        viewFactory.showEditItemWindow(selectedItem);
+            viewFactory.showEditItemWindow(selectedItem);
+            refreshItemTable();
+//        }
+        }
+    }
+
+    void showAlertBox() {
+        System.out.println("Please select an item.");
+        AlertBox.show("Warning", "Please select an item.");
     }
 }

@@ -1,6 +1,7 @@
 package com.view;
 
 import com.controller.*;
+import com.model.DbConnect;
 import com.model.Item;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,6 +70,22 @@ public class ViewFactory {
         pane.setCenter(view);
     }
 
+    public void showSellWindowContent(BorderPane pane) {
+        System.out.println("Show Sell Window Content");
+
+        BaseController controller = new SellWindowController(this, "SellWindow.fxml");
+        view = loadContent(controller);
+        pane.setCenter(view);
+    }
+
+    public void showUsersWindowContent(BorderPane pane) {
+        System.out.println("Show Users Window Content");
+
+        BaseController controller = new AdminUsersWindowController(this, "AdminUsersWindow.fxml");
+        view = loadContent(controller);
+        pane.setCenter(view);
+    }
+
     public Pane loadContent(BaseController controller) {    //String fileName
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(controller.getFxmlName()));
@@ -109,6 +126,13 @@ public class ViewFactory {
     public void closeStage(Stage stageToClose) {
         stageToClose.close();
         activeStages.remove(stageToClose);
+    }
+
+    public boolean checkCode(String code) {
+        DbConnect dbConnect = new DbConnect();
+        String query = "SELECT * FROM items WHERE code = '" + code + "';";
+        boolean isTaken = dbConnect.checkIfTaken(query);
+        return isTaken;
     }
 
 }

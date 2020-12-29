@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -45,7 +46,13 @@ public class AddItemWindowController extends BaseController implements Initializ
     @FXML
     private Label messageLabel;
 
+    @FXML
+    private Label codeCheckLabel;
+
     ArrayList<String> supplierNameList;
+
+    String code, name, brand;
+    int stock, retailPrice, wholesalePrice, supplierId;
 
     @FXML
     void cancelButtonAction(ActionEvent event) {
@@ -55,14 +62,29 @@ public class AddItemWindowController extends BaseController implements Initializ
     }
 
     @FXML
+    void checkButtonAction(ActionEvent event) {
+        System.out.println("Check Button Clicked");
+
+        boolean isTaken = viewFactory.checkCode(codeTextField.getText());
+        if (isTaken) {
+            codeCheckLabel.setText("Not Available!");
+        } else {
+            codeCheckLabel.setText("Available");
+        }
+    }
+
+    @FXML
     void addButtonAction(ActionEvent event) {
         System.out.println("Add Button Clicked");
 
-        String code = codeTextField.getText();
-        String name = nameTextField.getText();
-        String brand = brandTextField.getText();
-        int stock, retailPrice, wholesalePrice;
+        code = codeTextField.getText();
+        name = nameTextField.getText();
+        brand = brandTextField.getText();
         String supplier = supplierComboBox.getValue();
+
+        AnchorPane.setLeftAnchor(messageLabel, 0.0);
+        AnchorPane.setRightAnchor(messageLabel, 0.0);
+        messageLabel.setAlignment(Pos.CENTER);
 
         try {
             stock = Integer.parseInt(stockTextField.getText());
@@ -72,17 +94,22 @@ public class AddItemWindowController extends BaseController implements Initializ
 
             DbConnect dbConnect = new DbConnect();
             int supplierId = dbConnect.getSupplierId(supplier);
-
-            String query = "INSERT INTO items VALUES ('" + code + "', '" + name + "', '" + brand + "'," + stock + ", " + retailPrice + ", " + wholesalePrice + ", " + supplierId + ");" ;
-            dbConnect.executeQuery(query);
-            messageLabel.setText("Success!");
-
+            boolean isTaken = dbConnect.checkIfTaken("SELECT * FROM items WHERE code = '" + code + "';");
+            if (isTaken) {
+                messageLabel.setText("Id is already taken");
+            } else {
+                String query = "INSERT INTO items VALUES ('" + code + "', '" + name + "', '" + brand + "'," + stock + ", " + retailPrice + ", " + wholesalePrice + ", " + supplierId + ");";
+                boolean isExecuted = dbConnect.executeQuery(query);
+                if (isExecuted) {
+                    messageLabel.setText("Success!");
+                    resetTextField();
+                } else {
+                    messageLabel.setText("Failed adding the item");
+                }
+            }
         } catch (Exception e) {
-            System.out.println("ERROR in converting text to string." + e);
-            AnchorPane.setLeftAnchor(messageLabel, 0.0);
-            AnchorPane.setRightAnchor(messageLabel, 0.0);
-            messageLabel.setAlignment(Pos.CENTER);
-            messageLabel.setText(e.getMessage());
+            System.out.println("ERROR in converting text to string. " + e);
+            messageLabel.setText("Invalid Input : " + e.getMessage());
         }
     }
 
@@ -93,7 +120,13 @@ public class AddItemWindowController extends BaseController implements Initializ
         supplierComboBox.getItems().addAll(supplierNameList);
     }
 
-    public boolean isClose() {
-        return true;
+    void resetTextField() {
+        codeTextField.setText("");
+        nameTextField.setText("");
+        brandTextField.setText("");
+        stockTextField.setText("");
+        retailTextField.setText("");
+        wholesaleTextField.setText("");
+        supplierComboBox.setPromptText("");
     }
 }

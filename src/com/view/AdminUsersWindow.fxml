@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TableView fx:id="userTableView" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="usernameTableColumn" prefWidth="243.0" text="Username" />
+          <TableColumn fx:id="passwordTableColumn" minWidth="0.0" prefWidth="395.0" text="Password" />
+            <TableColumn fx:id="isAdminTableColumn" minWidth="0.0" prefWidth="161.0" text="isAdmin" />
+        </columns>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </TableView>
+   </center>
+   <top>
+      <HBox prefHeight="58.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" prefHeight="58.0" prefWidth="68.0" text="Search" />
+            <TextField fx:id="searchTextField" prefHeight="26.0" prefWidth="213.0">
+               <HBox.margin>
+                  <Insets top="15.0" />
+               </HBox.margin>
+            </TextField>
+            <Button mnemonicParsing="false" onAction="#addButtonAction" text="Add New User">
+               <HBox.margin>
+                  <Insets left="100.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#editButtonAction" text="Edit User">
+               <HBox.margin>
+                  <Insets left="20.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+            <Button layoutX="409.0" layoutY="20.0" mnemonicParsing="false" onAction="#deleteButtonAction" text="Delete User">
+               <HBox.margin>
+                  <Insets left="20.0" top="15.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>

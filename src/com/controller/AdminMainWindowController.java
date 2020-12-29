@@ -28,4 +28,22 @@ public class AdminMainWindowController extends BaseController{
 
     }
 
+    @FXML
+    void sellButtonAction(ActionEvent event) {
+        System.out.println("Sell Button Clicked!");
+
+        viewFactory.showSellWindowContent(mainWindow);
+    }
+
+    @FXML
+    void inventoryButtonAction(ActionEvent event) {
+        System.out.println("Inventory Button Clicked!");
+    }
+
+    @FXML
+    void usersButtonAction(ActionEvent event) {
+        System.out.println("Users Button Action");
+
+        viewFactory.showUsersWindowContent(mainWindow);
+    }
 }

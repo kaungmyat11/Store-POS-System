@@ -8,6 +8,11 @@ public class Item {
     private int retailPrice;
     private int wholesalePrice;
     private int supplierId;
+    private String supplierName;
+
+    public Item() {
+
+    }
 
     public Item(String code, String name, String brand, int stock, int retailPrice, int wholesalePrice, int supplierId) {
         this.code = code;
@@ -17,7 +22,9 @@ public class Item {
         this.retailPrice = retailPrice;
         this.wholesalePrice = wholesalePrice;
         this.supplierId = supplierId;
+        this.supplierName = getSupplierName();
     }
+
 
     public String getCode() {
         return code;
@@ -69,6 +76,10 @@ public class Item {
 
     public int getSupplierId() {
         return supplierId;
+    }
+
+    public void setSupplierName() {
+        this.supplierName = getSupplierName();
     }
 
     public void setSupplierId(int supplierId) {
